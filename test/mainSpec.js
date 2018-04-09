@@ -1,7 +1,10 @@
 var chai = require('chai');
 var assert = chai.assert;
+var expect = chai.expect;
+var should = chai.should;
 var _ = require('../src/main.js');
 describe('_', function() {
+  //each测试
   describe('each()', function() {
     it('Array value is equal to (index + 1)', function() {
       _.each([1, 2, 3], function (value, index) {
@@ -18,7 +21,7 @@ describe('_', function() {
       })
     });
   });
-
+  //any测试
   describe('any()', function () {
     it('[1, 2, 2] should be true', function () {
       var result = _.any([1, 2, 2], function (value, index) {
@@ -36,5 +39,23 @@ describe('_', function() {
       })
       assert.isTrue(result);
     })
+  });
+  // map测试
+  describe('map()', function () {
+    it('[1, 2, 3] should be [2, 4, 6]', function () {
+      var result = _.map([1, 2, 3], function (value, index) {
+        return value * 2;
+      });
+      expect(result).to.deep.equal([2, 4, 6]);
+    });
+    it('object 数组对象返回', function () {
+      var result = _.map({
+        '1': '1',
+        '2': '2'
+      }, function (pair, index) {
+        return pair.key = pair.value + 's';
+      });
+      expect(result).to.deep.equal(['1s', '2s']);
+    });
   });
 });

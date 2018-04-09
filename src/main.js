@@ -44,7 +44,7 @@ _ = {
    */
   all : function (obj, iterator, context) {
     if (obj.every) {
-      obj.every(iterator, context);
+      return obj.every(iterator, context);
     }
     var result = true;
     _.each(obj, function (value, index) {
@@ -63,10 +63,9 @@ _ = {
    */
   any : function (obj, iterator, context) {
     if (obj.some) {
-      obj.some(iterator, context);
+      return obj.some(iterator, context);
     }
     var result = false;
-    console.log(_.each)
     _.each(obj, function (value, index) {
       //有一个执行的结果为true，就将结果返回，不再继续执行下面的遍历操作
       if (result = !!iterator.call(context, value, index)) {
@@ -74,6 +73,22 @@ _ = {
       }
     });
     return result;
+  },
+  /**
+   * 返回依次执行遍历器函数的结果
+   * @param obj
+   * @param iterator
+   * @param context
+   */
+  map : function (obj, iterator, context) {
+    if (obj.map) {
+      return obj.map(iterator, context);
+    }
+    var results = [];
+    _.each(obj, function (value, index) {
+      results.push(iterator.call(context, value, index));
+    });
+    return results;
   }
 }
 module.exports = _;
