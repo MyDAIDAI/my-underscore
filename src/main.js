@@ -1,4 +1,4 @@
-module.exports = {
+_ = {
   /**
    * 数组，对象，NodeList遍历
    * @param obj
@@ -54,6 +54,26 @@ module.exports = {
       }
     });
     return result;
+  },
+  /**
+   * 有一个为true则为true
+   * @param obj
+   * @param iterator
+   * @param context
+   */
+  any : function (obj, iterator, context) {
+    if (obj.some) {
+      obj.some(iterator, context);
+    }
+    var result = false;
+    console.log(_.each)
+    _.each(obj, function (value, index) {
+      //有一个执行的结果为true，就将结果返回，不再继续执行下面的遍历操作
+      if (result = !!iterator.call(context, value, index)) {
+        throw '_break_';
+      }
+    });
+    return result;
   }
 }
-
+module.exports = _;
