@@ -105,6 +105,44 @@ _ = {
       }
     });
     return result;
+  },
+  /**
+   * 返回为true的值, 若为数组，则调用本身filter方法
+   * @param obj
+   * @param iterator
+   * @param context
+   * @returns {Array}
+   */
+  select : function (obj, iterator, context) {
+    if (obj.filter) {
+      return obj.filter(iterator, context);
+    }
+    var result = [];
+    _.each(obj, function (value, index) {
+      if (iterator.call(context, value, index)) {
+        result.push(value);
+      }
+    })
+    return result;
+  },
+  /**
+   * 寻找元素是否被包含，包含返回true,否则返回false(基于==)
+   * @param obj
+   * @param target
+   * @returns {*}
+   */
+  include : function (obj, target) {
+    if (obj.includes) {
+      return obj.includes(target);
+    }
+    var isFind = false;
+    _.each(obj, function (value, index) {
+      if (value == target) {
+        isFind = true;
+        throw '_break_';
+      }
+    })
+    return isFind;
   }
 }
 module.exports = _;
