@@ -89,6 +89,22 @@ _ = {
       results.push(iterator.call(context, value, index));
     });
     return results;
+  },
+  /**
+   * 返回第一个遍历器返回为true的值
+   * @param obj
+   * @param iterator
+   * @param context
+   * @returns {string}
+   */
+  detect : function (obj, iterator, context) {
+    var result = '';
+    _.each(obj, function (value, index) {
+      if (iterator.call(context, value, index)) {
+        result = value;
+      }
+    });
+    return result;
   }
 }
 module.exports = _;
