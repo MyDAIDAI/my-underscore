@@ -58,4 +58,22 @@ describe('_', function() {
       expect(result).to.deep.equal(['1s', '2s']);
     });
   });
+  // detect测试
+  describe('detect()', function () {
+    it('[1, 2, 3] should be 3', function () {
+      var result = _.detect([1, 2, 3], function (value, index) {
+        return value - 3;
+      });
+      expect(result).to.equal(2);
+    });
+    it('object 数组对象返回', function () {
+      var result = _.detect({
+        '1': '1',
+        '2': '2'
+      }, function (pair, index) {
+        return pair;
+      });
+      expect(result).to.deep.equal(['2', '2']);
+    });
+  });
 });
