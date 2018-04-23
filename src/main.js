@@ -143,6 +143,27 @@ _ = {
       }
     })
     return isFind;
+  },
+  /**
+   * 返回迭代遍历值
+   * @param obj
+   * @param memo
+   * @param iterator
+   * @param context
+   * @returns {*}
+   */
+  inject : function (obj, memo, iterator, context) {
+    _.each(obj, function (value, index) {
+      memo = iterator.call(obj, memo, value, index);
+    });
+    return memo
+  },
+  invoke : function (obj, method) {
+    // 从位置为2的地方开始截取字符串
+    var args = _.toArray(arguments).slice(2);
+    return _.map(obj, function (value) {
+      return (method ? value[method] : value).apply(value, args);
+    });
   }
 }
 module.exports = _;
