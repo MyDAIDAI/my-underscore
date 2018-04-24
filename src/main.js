@@ -161,15 +161,79 @@ _ = {
   /**
    * 在obj的每一个元素上执行method方法
    * @param obj
-   * @param method
+   * @param method 方法名
    * @returns {*}
    */
   invoke : function (obj, method) {
     // 从位置为2的地方开始截取字符串
     var args = _.toArray(arguments).slice(2);
     return _.map(obj, function (value) {
+      // 判断method是否存在，存在则以args为参数，调用每一项的method方法
       return (method ? value[method] : value).apply(value, args);
     });
+  },
+  /**
+   * 返回遍历器返回的最大值，或者obj内容中的最大值
+   * @param obj
+   * @param iterator
+   * @param context
+   * @returns {*}
+   */
+  max : function (obj, iterator, context) {
+    var result;
+    _.each(obj, function (value, index) {
+      value = iterator ? iterator.call(context, value, index) : value;
+      if (result == null || value >= result) {
+        result = value;
+      }
+    });
+    return result;
+  },
+  /**
+   * 获取遍历器返回中的最小值或者obj中的最小值
+   * @param obj
+   * @param iterator
+   * @param context
+   * @returns {*}
+   */
+  min : function (obj, iterator, context) {
+    var result;
+    _.each(obj, function (value, index) {
+      value = iterator ? iterator.call(context, value, index) : value;
+      if (result == null || value <= result) {
+        result = value;
+      }
+    });
+    return result;
+  },
+  /**
+   * 返回对象中所有键名为key的值的数组
+   * @param obj
+   * @param key
+   * @returns {Array}
+   */
+  pluck : function (obj, key) {
+    var result = [];
+    _.each(obj, function (value, index) {
+      result.push(value[key]);
+    });
+    return result;
+  },
+  /**
+   * 返回obj中没有通过iterator的值
+   * @param obj
+   * @param iterator
+   * @param context
+   * @returns {Array}
+   */
+  reject : function (obj, iterator, context) {
+    var result = []
+    _.each(obj, function (value, index) {
+      if (!iterator.call(context, value, index)) {
+        result.push(value)
+      }
+    });
+    return result;
   }
 }
 module.exports = _;
