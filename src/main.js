@@ -234,6 +234,49 @@ _ = {
       }
     });
     return result;
+  },
+  /**
+   * 返回一个排序后的obj拷贝副本，如果传递iterator参数，
+   * iterator将作为obj中每个值的排序依据
+   * @param obj
+   * @param iterator
+   * @param context
+   */
+  sortBy : function (obj, iterator, context) {
+    _.pluck(_.map(obj, function (value, index) {
+      return {
+        value: value,
+        criteria: iterator ? iterator.call(context, value, index) : value
+      };
+    }).sort(function (left, right) {
+      var a = left.criteria;
+      var b = right.criteria;
+      return a < b ? -1 : a > b ? 1: 0
+    }), 'value')
+  },
+  // TODO sortedIndex 查找对象在数组中的index
+  /**
+   * 将任何可以迭代的对象转换为数组
+   * @param iterable
+   */
+  toArray : function (iterable) {
+    if (!iterable) {
+      return []
+    }
+    if (_.isArray(iterable)) {
+      return iterable
+    }
+    return _.map(iterable, function (value) {
+      return value
+    })
+  },
+  /**
+   * 返回obj对象的长度
+   * @param obj
+   * @returns {*}
+   */
+  size : function (obj) {
+    return _.toArray(obj).length
   }
 }
 module.exports = _;
