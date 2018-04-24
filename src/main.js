@@ -261,14 +261,18 @@ _ = {
    */
   toArray : function (iterable) {
     if (!iterable) {
-      return []
+      return [];
     }
     if (_.isArray(iterable)) {
-      return iterable
+      return iterable;
+    }
+    // 若es6中的额Array.from存在，则调用此方法
+    if (Array.from) {
+      return Array.from(iterable);
     }
     return _.map(iterable, function (value) {
       return value
-    })
+    });
   },
   /**
    * 返回obj对象的长度
@@ -277,6 +281,33 @@ _ = {
    */
   size : function (obj) {
     return _.toArray(obj).length
+  },
+  //--------------------The following methods only apply to arrays----------------//
+  /**
+   * 返回数组的第一个元素
+   * @param arr
+   * @returns {*}
+   */
+  first : function (arr) {
+    return arr[0];
+  },
+  /**
+   * 返回数组的最后一个元素
+   * @param arr
+   * @returns {*}
+   */
+  last : function (arr) {
+    return arr[arr.length - 1];
+  },
+  /**
+   * 返回本身为true的值组成的数组
+   * @param arr
+   * @returns {*|Array}
+   */
+  compact : function (arr) {
+    return _.select(arr, function (value) {
+      return !!value;
+    })
   }
 }
 module.exports = _;
