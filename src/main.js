@@ -91,7 +91,7 @@ _ = {
     return results;
   },
   /**
-   * 返回第一个遍历器返回为true的值
+   * 返回最后一个遍历器返回为true的值
    * @param obj
    * @param iterator
    * @param context
@@ -107,7 +107,7 @@ _ = {
     return result;
   },
   /**
-   * 返回为true的值, 若为数组，则调用本身filter方法
+   * 返回iterator执行后返回为true的值, 若为数组，则调用本身filter方法
    * @param obj
    * @param iterator
    * @param context
@@ -147,7 +147,7 @@ _ = {
   /**
    * 返回迭代遍历值
    * @param obj
-   * @param memo
+   * @param memo reduce的初始值
    * @param iterator
    * @param context
    * @returns {*}
@@ -158,6 +158,12 @@ _ = {
     });
     return memo
   },
+  /**
+   * 在obj的每一个元素上执行method方法
+   * @param obj
+   * @param method
+   * @returns {*}
+   */
   invoke : function (obj, method) {
     // 从位置为2的地方开始截取字符串
     var args = _.toArray(arguments).slice(2);
