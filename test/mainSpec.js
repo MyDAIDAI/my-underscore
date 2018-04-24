@@ -76,4 +76,30 @@ describe('_', function() {
       expect(result).to.deep.equal(['2', '2']);
     });
   });
+  // select测试
+  describe('select()', function () {
+    it('[1, 2, 3] should be [2, 3]', function () {
+      var result = _.select([1, 2, 3], function (value, index) {
+        return value > 1;
+      });
+      expect(result).to.deep.equal([2, 3]);
+    });
+    it('object 对象返回iterator遍历器为true的值', function () {
+      var result = _.select({1: 1, 2: 2, 3: 3}, function (pair, index) {
+        return pair.value > 1
+      })
+      expect(result).to.deep.equal([['2', 2], ['3', 3]]);
+    });
+  });
+  // include测试
+  describe('include()', function () {
+    it('[1, 2, 3] include 1', function () {
+      var result = _.include([1, 2, 3], 1)
+      expect(result).to.be.true;
+    })
+    it('[1, 2, 3] no include 0', function () {
+      var result = _.include([1, 2, 3], 0)
+      expect(result).to.be.false;
+    })
+  })
 });
