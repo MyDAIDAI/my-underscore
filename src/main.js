@@ -308,6 +308,59 @@ _ = {
     return _.select(arr, function (value) {
       return !!value;
     })
+  },
+  /**
+   * 将一个嵌套多层的数组 array（数组） (嵌套可以是任何层数)转换为只有一层的数组
+   * @param array
+   * @returns {*}
+   */
+  flatten : function (array) {
+    return _.inject(array, [], function (memo, value) {
+      if (_.isArray(value)) {
+        return memo.concat(_.flatten(value));
+      }
+      memo.push(value);
+      return memo;
+    });
+  },
+  /**
+   * 返回一个删除所有values值后的 array副本
+   * @param array
+   * @returns {*|Array}
+   */
+  without : function (array) {
+    var values = array.silce.call(arguments, 0);
+    return _.select(function (value) {
+      return !_.include(values, value);
+    });
+  },
+  /**
+   * 返回 array去重后的副本
+   * @param array
+   * @param sorted
+   * @returns {*}
+   */
+  uniq : function (array, sorted) {
+    return _.inject(array, [], function (memo, el, i) {
+      // 已经排序元素只需要取出最后一个值进行比较即可
+      if (0 === i || (sorted ? _.last(memo) !== el : !_.include(memo, el))) {
+        memo.push(el);
+      }
+      return memo;
+    });
+  },
+  /**
+   * 返回传入 arrays（数组）交集
+   * @param array1
+   * @param array2
+   * @returns {*|Array}
+   */
+  intersect : function (array1, array2) {
+    return _.select(_.uniq(array1), function (item1) {
+      return _.detect(array2, function (item2) {
+        return item1 === item2;
+      });
+    });
   }
 }
 module.exports = _;
