@@ -361,6 +361,143 @@ _ = {
         return item1 === item2;
       });
     });
-  }
+  },
+  //--------------------The following methods only apply to objects----------------//
+  /**
+   * 返回对象中所有的键名数组
+   * @param obj
+   * @returns {*|Array}
+   */
+  keys : function (obj) {
+    return _.pluck(obj, 'key');
+  },
+  /**
+   * 返回对象中所有的键值数组
+   * @param obj
+   * @returns {*|Array}
+   */
+  values : function (obj) {
+    return _.pluck(obj, 'value');
+  },
+  /**
+   * 复制source对象中的所有属性覆盖到destination对象上
+   * @param destination
+   * @param source
+   * @returns {*}
+   */
+  extend : function (destination, source) {
+    for (var property in source) {
+      destination[property] = source[property];
+    }
+    return destination;
+  },
+  /**
+   * 对象克隆
+   * @param obj
+   * @returns {*}
+   */
+  clone : function (obj) {
+    return _.extend({}, obj);
+  },
+  /**
+   * 判断一个节点是否是元素节点
+   * @param obj
+   * @returns {boolean}
+   */
+  isElement : function (obj) {
+    return !!(obj && obj.nodeType === 1);
+  },
+  /**
+   * 判断一个对象是否是数组
+   * @param obj
+   * @returns {boolean}
+   */
+  isArray : function (obj) {
+    return Object.prototype.toString.call(obj) === '[object Array]';
+  },
+  /**
+   * 判断一个对象是否是函数
+   * @param obj
+   * @returns {boolean}
+   */
+  isFunction : function (obj) {
+    return typeof obj === 'function';
+  },
+  /**
+   * 判断一个对象是否undefined
+   * @param obj
+   * @returns {boolean}
+   */
+  isUndefined : function (obj) {
+    return typeof obj === 'undefined';
+  },
+  // String(null) -> 'null'
+  /**
+   * 转字符串
+   * @param obj
+   * @returns {string}
+   */
+  toString : function (obj) {
+    return obj == null ? '' : String(obj);
+  },
+  /**
+   * 绑定函数 function 到对象 context 上
+   * @param func
+   * @param context
+   * @returns {*}
+   */
+  bind : function (func, context) {
+    if (!context) {
+      return func;
+    }
+    var args = _.toArray(arguments).slice(2);
+    return function () {
+      var a = args.concat(_.toArray(arguments));
+      return func.apply(context, a);
+    };
+  },
+  bindAll : function () {
+    var args = _.toArray(arguments);
+    var context = args.pop();
+    _.each(args, function (methodName) {
+      context[methodName] = _.bind(context[methodName], context);
+    });
+  },
+  isEqual : function (a, b) {
+    if (a === b) {
+      return true;
+    }
+    var at = typeof a;
+    var bt = typeof b;
+    if (at != bt) {
+      return false;
+    }
+    if (a == b) {
+      return true;
+    }
+    if (a.isEqual) {
+      return a.isEqual(b);
+    }
+    return at === 'object' && _.isEqualContents(a, b);
+  },
+  /**
+   * 对象相等判断
+   * @param a
+   * @param b
+   */
+  isEqualContents : function (a, b) {
+    var aKeys = _.keys(a);
+    var bKeys = _.keys(b);
+    if (aKeys.length !== bKeys.length) {
+      return false;
+    }
+    for (var key in a) {
+      if (!_.equal(a[key], b[key])) {
+        return false;
+      }
+    }
+    return true;
+  },
+  // TODO template模板编译函数
 }
 module.exports = _;
